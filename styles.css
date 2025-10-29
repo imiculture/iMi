@@ -1,0 +1,127 @@
+/* Reset */
+*{box-sizing:border-box;margin:0;padding:0}
+
+/* Tunables */
+:root{
+  --bg-tint: rgba(0,0,0,0.28);
+  --content-bg: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.36));
+  --accent: #ff5c33;
+  --muted: #f8e8e1;
+  --transition: 1000ms;
+  --canvas-z: 1;
+  --bg-z: 0;
+  --overlay-z: 5;
+  --content-z: 10;
+  --footer-z: 12;
+}
+
+/* Page base */
+html,body{height:100%;width:100%}
+body{
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color:var(--muted);
+  background:#000; /* fallback if images fail */
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:2rem;
+  overflow:hidden; /* keeps particles decorative */
+}
+
+/* Background layers inserted by JS */
+.bg-layer{
+  position:fixed;
+  inset:0;
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+  opacity:0;
+  transition:opacity var(--transition) ease;
+  pointer-events:none;
+  z-index:var(--bg-z);
+  will-change:opacity, background-image;
+}
+
+/* Visible helper */
+.bg-layer.visible,
+.bg-layer[aria-hidden="false"]{ opacity:1 }
+
+/* Particle canvas sits above bg layers but below overlay/content */
+#particles{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:var(--canvas-z);
+}
+
+/* Overlay tint: allow background to show through */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:var(--bg-tint);
+  z-index:var(--overlay-z);
+  pointer-events:none; /* let content receive clicks */
+}
+
+/* Main content */
+.content{
+  position:relative;
+  z-index:var(--content-z);
+  max-width:80ch;
+  width:100%;
+  margin:0 1rem;
+  padding:2rem;
+  border-radius:12px;
+  background:var(--content-bg);
+  backdrop-filter: blur(6px) saturate(120%);
+  -webkit-backdrop-filter: blur(6px) saturate(120%);
+  box-shadow:0 8px 30px rgba(0,0,0,0.6);
+  pointer-events:auto;
+}
+
+/* Heading & copy */
+h1{
+  color:var(--accent);
+  font-size:clamp(1.6rem,3.2vw,3rem);
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:.6rem;
+}
+p{ color:var(--muted); line-height:1.4; font-size:clamp(1rem,1.6vw,1.1rem) }
+
+/* Footer */
+footer{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:12px;
+  text-align:center;
+  z-index:var(--footer-z);
+  pointer-events:auto;
+  font-size:.95rem;
+  color:#ffb199;
+}
+footer a{ color:var(--accent); text-decoration:none; font-weight:700 }
+footer a:hover, footer a:focus{ color:#ffaa80; text-decoration:underline; outline:none }
+
+/* Accessibility */
+:focus{ outline:3px solid rgba(255,92,51,0.16); outline-offset:3px }
+
+/* Small screens */
+@media (max-width:720px){
+  .content{ padding:1.2rem; border-radius:10px; }
+  h1{ font-size:1.6rem }
+  footer{ font-size:.9rem; bottom:8px }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *{ transition:none !important; animation:none !important }
+  .bg-layer{ transition:none !important }
+  body{ transition:none }
+  .content{ backdrop-filter:none; -webkit-backdrop-filter:none }
+}
