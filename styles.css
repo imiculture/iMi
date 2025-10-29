@@ -90,6 +90,11 @@ h1{
   letter-spacing:2px;
   text-transform:uppercase;
   margin-bottom:.6rem;
+
+  /* keep the heading on a single line */
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
 }
 p{ color:var(--muted); line-height:1.4; font-size:clamp(1rem,1.6vw,1.1rem) }
 
